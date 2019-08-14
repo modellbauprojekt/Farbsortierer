@@ -230,16 +230,36 @@ void loop()
   TWleer[7] = (GWleer[3] * (1.0 + Abweichung_H)); // Grenzwerte für Helligkeit
 
   if (reporting == 1)
-  { Serial.println(); Serial.println(F("TW-Werte für BLAU:")); for (int i = 0 ; i < 8 ; i++) {
-      Serial.print(TWblau[i]); Serial.print("<->"); i++; Serial.print(TWblau[i]); Serial.print("  ");
+  { 
+    Serial.println(); 
+    Serial.println(F("TW-Werte für BLAU:")); 
+    for (int i = 0 ; i < 8 ; i++) {
+      Serial.print(TWblau[i]); 
+      Serial.print("<->"); i++; 
+      Serial.print(TWblau[i]); 
+      Serial.print("  ");
     }
-    Serial.println(); Serial.println(F("TW-Werte für GRÜN:")); for (int i = 0 ; i < 8 ; i++) {
-      Serial.print(TWgruen[i]); Serial.print("<->"); i++; Serial.print(TWgruen[i]); Serial.print("  ");
+    
+    Serial.println(); 
+    Serial.println(F("TW-Werte für GRÜN:")); 
+    
+    for (int i = 0 ; i < 8 ; i++) {
+      Serial.print(TWgruen[i]); 
+      Serial.print("<->"); i++; 
+      Serial.print(TWgruen[i]); 
+      Serial.print("  ");
     }
-    Serial.println(); Serial.println(F("TW-Werte für GELB:")); for (int i = 0 ; i < 8 ; i++) {
-      Serial.print(TWgelb[i]); Serial.print("<->"); i++; Serial.print(TWgelb[i]); Serial.print("  ");
+    Serial.println(); 
+    Serial.println(F("TW-Werte für GELB:")); 
+    for (int i = 0 ; i < 8 ; i++) {
+      Serial.print(TWgelb[i]); 
+      Serial.print("<->"); i++; 
+      Serial.print(TWgelb[i]); 
+      Serial.print("  ");
     }
-    Serial.println(); Serial.println(F("TW-Werte für PINK:")); for (int i = 0 ; i < 8 ; i++) {
+    Serial.println(); 
+    Serial.println(F("TW-Werte für PINK:")); 
+    for (int i = 0 ; i < 8 ; i++) {
       Serial.print(TWpink[i]); Serial.print("<->"); i++; Serial.print(TWpink[i]); Serial.print("  ");
     }
     Serial.println(); Serial.println(F("TW-Werte für LILA:")); for (int i = 0 ; i < 8 ; i++) {
