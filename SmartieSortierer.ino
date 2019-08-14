@@ -30,7 +30,7 @@ float GWrot[]     = {16.8 , 47.1 , 36.1 , 1671.0}; // Aktualisiert
 float GWorange[]  = {17.8 , 42.1 , 40.1 , 1343.0}; // Aktualisiert
 float GWbraun[]   = {23.0 , 39.5 , 37.5 , 1630.0}; // Aktualisiert
 float GWleer[]    = {31.8 , 37.5 , 30.8 , 500.0 }; // gilt für den leeren Schieber unter dem Sensor!
-
+int WINKEL[]      = {90 , 52 , 67 ,82 , 96, 111 , 126 , 140 , 155 }; // EInstellwinkel Rutsche
 // Tabelle: Grenzwerte zur Smartieerkennung. Diese Werte werden in loops() abhängig von der Toleranz errechnet
 // Aufbau: TW_xxx[1]=unterer Grenzwert ROT, [2]= oberer Grenzwert ROT, ...
 float TWblau[8];    float TWgruen[8]; float TWgelb[8]; float TWpink[8]; float TWlila[8]; float TWrot[8];
@@ -59,7 +59,7 @@ void setup()
   // Sensor kalibrieren auf Umgebungslicht
   Serial.println(F("Sensor kalibrieren: Umgebungslichtstärke wird gemessen"));
   lcd.setCursor(0,1); lcd.print(F("Kalibrieren:"));
-  Drehschieber(5); Drehschieber(43); // Schieber leeren und unter den Sensor fahren
+  Drehschieber(5); Drehschieber(45); // Schieber leeren und unter den Sensor fahren
   for (i=1 ; i<21 ; i++)
   {color(); helligkeit = rot + gruen + blau; Serial.print(F("Messung Nr.")); Serial.print(i);
   Serial.print(F(": ")); Serial.println(helligkeit); hell_kalibrieren += helligkeit; 
@@ -160,7 +160,7 @@ if (farbcode==0) {Drehschieber(113); delay(100);} // Nur neuen Smartie holen, we
 // SCHRITT 2: Smartie zum Sensor fahren
 // Serial.println(); Serial.println();
 // Serial.println("Smartie wird unter Sensor platziert...");
-Drehschieber(43); delay(100);
+Drehschieber(45); delay(100);
 lcd.setCursor(0,0); lcd.print(F("Scn#"));
 lcd.setCursor(0,1); lcd.print(F("R---  G---  B---")); 
 
@@ -192,30 +192,30 @@ if (    rotpzt > TWleer[0]  &&      rotpzt < TWleer[1] &&
     {leer++; Serial.print(F("Schacht leer!")); Serial.println();farbcode=0;
      lcd.setCursor(0,0); lcd.print(leer); lcd.print(F("xLeer    "));}
 
-/* PRÜFUNG AUF BLAU */
-if (    rotpzt > TWblau[0]  &&      rotpzt < TWblau[1] &&
-      gruenpzt > TWblau[2]  &&    gruenpzt < TWblau[3] &&
-       blaupzt > TWblau[4]  &&    blaupzt  < TWblau[5] &&
-    helligkeit > TWblau[6]  &&  helligkeit < TWblau[7])
-    {Blaue++; Serial.println(F("Blauer Smartie erkannt!")); farbcode=1;
-     lcd.setCursor(0,0); lcd.print(Blaue); lcd.print(F("xBlau    "));}
+/* PRÜFUNG AUF GELB */
+if (    rotpzt > TWgelb[0]  &&      rotpzt < TWgelb[1] &&
+      gruenpzt > TWgelb[2]  &&    gruenpzt < TWgelb[3] &&
+       blaupzt > TWgelb[4]  &&    blaupzt  < TWgelb[5] &&
+    helligkeit > TWgelb[6]  &&  helligkeit < TWgelb[7])
+    {Gelbe++; Serial.println(F("Gelber Smartie erkannt!")); farbcode=1;
+     lcd.setCursor(0,0); lcd.print(Gelbe); lcd.print(F("xGelb  "));}
+
+/* PRÜFUNG AUF ORANGE */
+if (    rotpzt > TWorange[0]  &&      rotpzt < TWorange[1] &&
+      gruenpzt > TWorange[2]  &&    gruenpzt < TWorange[3] &&
+       blaupzt > TWorange[4]  &&    blaupzt  < TWorange[5] &&
+    helligkeit > TWorange[6]  &&  helligkeit < TWorange[7])
+    {Orange++; Serial.println(F("Oranger Smartie erkannt!")); farbcode=2;
+    lcd.setCursor(0,0); lcd.print(Orange); lcd.print(F("xOrange "));}  
 
 /* PRÜFUNG AUF GRÜN */
 if (     rotpzt > TWgruen[0]  &&      rotpzt   < TWgruen[1] &&
        gruenpzt > TWgruen[2]  &&    gruenpzt   < TWgruen[3] &&
        blaupzt > TWgruen[4]  &&    blaupzt   < TWgruen[5] &&
      helligkeit > TWgruen[6]  &&  helligkeit   < TWgruen[7])
-    {Gruene++; Serial.println(F("Grüner Smartie erkannt!")); farbcode=2;
+    {Gruene++; Serial.println(F("Grüner Smartie erkannt!")); farbcode=3;
      lcd.setCursor(0,0); lcd.print(Gruene); lcd.print(F("xGruen   "));}
-
-/* PRÜFUNG AUF GELB */
-if (    rotpzt > TWgelb[0]  &&      rotpzt < TWgelb[1] &&
-      gruenpzt > TWgelb[2]  &&    gruenpzt < TWgelb[3] &&
-       blaupzt > TWgelb[4]  &&    blaupzt  < TWgelb[5] &&
-    helligkeit > TWgelb[6]  &&  helligkeit < TWgelb[7])
-    {Gelbe++; Serial.println(F("Gelber Smartie erkannt!")); farbcode=3;
-     lcd.setCursor(0,0); lcd.print(Gelbe); lcd.print(F("xGelb  "));}
-    
+         
 /* PRÜFUNG AUF PINK */
 if (    rotpzt > TWpink[0]  &&      rotpzt < TWpink[1] &&
       gruenpzt > TWpink[2]  &&    gruenpzt < TWpink[3] &&
@@ -224,29 +224,29 @@ if (    rotpzt > TWpink[0]  &&      rotpzt < TWpink[1] &&
     {Pinke++; Serial.println(F("Pinker Smartie erkannt!")); farbcode=4;
      lcd.setCursor(0,0); lcd.print(Pinke); lcd.print(F("xPink "));}
 
-/* PRÜFUNG AUF LILA */
-if (    rotpzt > TWlila[0]  &&      rotpzt < TWlila[1] &&
-      gruenpzt > TWlila[2]  &&    gruenpzt < TWlila[3] &&
-       blaupzt > TWlila[4]  &&    blaupzt  < TWlila[5] &&
-    helligkeit > TWlila[6]  &&  helligkeit < TWlila[7])
-    {Lilane++; Serial.println(F("Lila Smartie erkannt!")); farbcode=5;
-     lcd.setCursor(0,0); lcd.print(Lilane); lcd.print(F("xLila  "));}
-
 /* PRÜFUNG AUF ROT */
 if (    rotpzt > TWrot[0]  &&      rotpzt < TWrot[1] &&
       gruenpzt > TWrot[2]  &&    gruenpzt < TWrot[3] &&
        blaupzt > TWrot[4]  &&    blaupzt  < TWrot[5] &&
     helligkeit > TWrot[6]  &&  helligkeit < TWrot[7])
-    {Rote++; Serial.println(F("Roter Smartie erkannt!")); farbcode=6;
+    {Rote++; Serial.println(F("Roter Smartie erkannt!")); farbcode=5;
      lcd.setCursor(0,0); lcd.print(Rote); lcd.print(F("xRot   "));}
 
-/* PRÜFUNG AUF ORANGE */
-if (    rotpzt > TWorange[0]  &&      rotpzt < TWorange[1] &&
-      gruenpzt > TWorange[2]  &&    gruenpzt < TWorange[3] &&
-       blaupzt > TWorange[4]  &&    blaupzt  < TWorange[5] &&
-    helligkeit > TWorange[6]  &&  helligkeit < TWorange[7])
-    {Orange++; Serial.println(F("Oranger Smartie erkannt!")); farbcode=7;
-    lcd.setCursor(0,0); lcd.print(Orange); lcd.print(F("xOrange "));}      
+/* PRÜFUNG AUF LILA */
+if (    rotpzt > TWlila[0]  &&      rotpzt < TWlila[1] &&
+      gruenpzt > TWlila[2]  &&    gruenpzt < TWlila[3] &&
+       blaupzt > TWlila[4]  &&    blaupzt  < TWlila[5] &&
+    helligkeit > TWlila[6]  &&  helligkeit < TWlila[7])
+    {Lilane++; Serial.println(F("Lila Smartie erkannt!")); farbcode=6;
+     lcd.setCursor(0,0); lcd.print(Lilane); lcd.print(F("xLila  "));}
+
+/* PRÜFUNG AUF BLAU */
+if (    rotpzt > TWblau[0]  &&      rotpzt < TWblau[1] &&
+      gruenpzt > TWblau[2]  &&    gruenpzt < TWblau[3] &&
+       blaupzt > TWblau[4]  &&    blaupzt  < TWblau[5] &&
+    helligkeit > TWblau[6]  &&  helligkeit < TWblau[7])
+    {Blaue++; Serial.println(F("Blauer Smartie erkannt!")); farbcode=7;
+     lcd.setCursor(0,0); lcd.print(Blaue); lcd.print(F("xBlau    "));}
 
 /* PRÜFUNG AUF BRAUN */
 if (    rotpzt > TWbraun[0]  &&      rotpzt < TWbraun[1] &&
@@ -283,7 +283,7 @@ if (leer==5) {lcd.setCursor(0,0); lcd.print(F("..going 2 sleep 1 Min"));
                                        
 // SCHRITT 7: Smartie auswerfen
 if (farbcode > 0 && farbcode <99 )
-   {Rutsche(45 + (farbcode*14)); Drehschieber(5); Abweichung_H = Abweichung_Helligkeit; farbcode=0; Fehler=0; leer=0;}       
+   {Rutsche(WINKEL[farbcode]); Drehschieber(5); Abweichung_H = Abweichung_Helligkeit; farbcode=0; Fehler=0; leer=0;}       
 
 } // LOOP Ende
 
